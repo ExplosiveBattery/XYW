@@ -1,0 +1,142 @@
+	小米路由mini使用的是联发科的MT7620A型号的芯片，所以要是mt7620的源
+	注意src/gz 后面要匹配？不需要，我还特意搜索了一下文件，找不到。
+	src/gz 16.11_core http://downloads.pandorabox.com.cn/pandorabox/targets/ralink/mt7620/packages是说下载页面中的packegs.gz这个打包软件。
+	不过我建议只要网址那几条，网址上面不要动。
+	http://downloads.pandorabox.com.cn/pandorabox/
+
+
+自带无效软件源：
+dest root /
+dest ram /tmp
+lists_dir ext /var/opkg-lists
+option overlay_root /overlay
+src/gz r2_base http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/base
+src/gz r2_management http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/management
+src/gz r2_oldpackages http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/oldpackages
+src/gz r2_packages http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/packages
+src/gz r2_routing http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/routing
+src/gz r2_telephony http://downloads.openwrt.org.cn/PandoraBox/ralink/packages/telephony
+
+
+dest root /
+dest ram /tmp
+lists_dir ext /var/opkg-lists
+option overlay_root /overlay
+src/gz barrier_breaker_base http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/base
+src/gz barrier_breaker_luci http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/luci
+src/gz barrier_breaker_management http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/management
+src/gz barrier_breaker_oldpackages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/oldpackages
+src/gz barrier_breaker_packages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/packages
+src/gz barrier_breaker_routing http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/routing
+src/gz barrier_breaker_telephony http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620n/packages/telephony
+
+
+老版有效源：
+dest root /
+dest ram /tmp
+lists_dir ext /var/opkg-lists
+option overlay_root /overlay
+src/gz base http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/base
+src/gz luci http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/luci
+src/gz management http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/management
+src/gz oldpackages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/oldpackages
+src/gz packages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/packages
+src/gz routing http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/routing
+src/gz telephony http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/telephony
+
+src/gz base http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/base/  
+src/gz management http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/management  
+src/gz oldpackages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/oldpackages  
+src/gz packages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/packages  
+src/gz routing http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/routing  
+src/gz telephony http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/telephony 
+src/gz luci http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/luci
+
+http://downloads.pandorabox.com.cn/pandorabox/packages/mt7620/packages/base/
+
+新版软件源：
+
+//资源很好但是不被固件支持，因为全是ramips的ipk
+dest root /  
+dest ram /tmp  
+lists_dir ext /var/opkg-lists  
+option overlay_root /overlay  
+arch all 100  
+arch ralink 200  
+arch ramips 300  
+arch ramips_24kec 400  
+src/gz base http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/base/  
+src/gz management http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/management  
+#invalid! src/gz oldpackages http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/oldpackages  
+src/gz packages http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/packages  
+src/gz routing http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/routing  
+src/gz telephony http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/telephony 
+src/gz luci http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/luci
+
+src/gz 16.11_core http://downloads.pandorabox.com.cn/pandorabox/targets/ralink/mt7620/packages
+src/gz 16.11_base http://downloads.pandorabox.com.cn/pandorabox/packages/mipsel_24kec_dsp/base
+src/gz 16.11_lafite http://downloads.pandorabox.com.cn/pandorabox/packages/mipsel_24kec_dsp/lafite
+src/gz 16.11_luci http://downloads.pandorabox.com.cn/pandorabox/packages/mipsel_24kec_dsp/luci
+src/gz 16.11_mtkdrv http://downloads.pandorabox.com.cn/pandorabox/packages/mipsel_24kec_dsp/mtkdrv
+src/gz 16.11_packages http://downloads.pandorabox.com.cn/pandorabox/packages/mipsel_24kec_dsp/packages
+
+
+
+ssh进去opkg update，也可以在PandoraBox里面刷新一下“软件”那一个部分，由于dropbear版本老而有漏洞要升级，就可以直接在下载并安装软件那里安装dropbear，就会跟新。第一次更新出错：
+Installing dropbear (2016.74-1) to root...
+Downloading http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/base//dropbear_2016.74-1_ramips.ipk.
+Configuring dropbear.
+Collected errors:
+ * resolve_conffiles: Existing conffile /etc/dropbear/dropbear_rsa_host_key is different from the conffile in the new package. The new conffile will be placed at /etc/dropbear/dropbear_rsa_host_key-opkg.
+ * resolve_conffiles: Existing conffile /etc/config/dropbear is different from the conffile in the new package. The new conffile will be placed at /etc/config/dropbear-opkg.
+
+
+
+意外发现ss_4.4.0-1_ramips.ipk
+
+
+
+软件更新所有的都是这样提示（大意是软件包没有有效的结构，忽略）
+Package 4th version 3.61.5-1 has no valid architecture, ignoring.
+Package 6tunnel version 0.11rc2-3 has no valid architecture, ignoring.Package GraphicsMagick-jpeg version 1.3.8-2 has no valid architecture, ignoring.
+Package GraphicsMagick version 1.3.8-2 has no valid architecture, ignoring.
+Package agetty version 2.21.2-1 has no valid architecture, ignoring.
+Package ahcpd version 0.53-1 has no valid architecture, ignoring.
+Package aiccu version 20070115-10 has no valid architecture, ignoring.
+Package aircrack-ng version 1.1-3 has no valid architecture, ignoring.
+解决办法是跟换固件版本，换成稳定版的。是源指定的architecture和路由上刷好的系统的不一致造成的。对于http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/，里面恰好有config.ramips_mt7620a里面写了对ramips的要求，而http://downloads.openwrt.org/snapshots/trunk/ramips/mt7620/packages/base/我没找到类似的配置文件。
+
+
+
+dest root /
+dest ram /tmp
+lists_dir ext /var/opkg-lists
+option overlay_root /overlay
+这一部分会放到/etc/opkg.conf里面，有URL的命令却不会。不过你也可以放进去，在PandoraBox里者认为是自己额外添加的源，而不是系统配置的源。
+下面是一份标准的Xiaomi mini /etc/opkg.conf配置：
+dest root /
+dest ram /tmp
+lists_dir ext /etc/opkg-lists
+option overlay_root /overlay
+# noticedest 
+usb /mnt/sdb1/opkg #设置USB
+arch all 100	#这里是对兼容结构的设置
+arch ramips_24kec 200
+arch ramips 300
+arch mips 400
+arch unkown 500
+src/gz barrier_breaker_base http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/base
+src/gz barrier_breaker_luci http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/luci
+src/gz barrier_breaker_management http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/management
+src/gz barrier_breaker_oldpackages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/oldpackages
+src/gz barrier_breaker_packages http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/packages
+src/gz barrier_breaker_routing http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/routing
+src/gz barrier_breaker_telephony http://downloads.openwrt.org/barrier_breaker/14.07/ramips/mt7620a/packages/telephony
+
+
+
+
+外部挂在的usb存储设备，必须要使用ext格式才能作为opkg安装时符号的链接点。从而在上面执行opkg -d usb install libc_xxxxx。
+
+
+libc * 	libopenssl * 	zlib * 

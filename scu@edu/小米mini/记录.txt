@@ -1,0 +1,205 @@
+	路由器常规固件由三部分组成，我是看了ubreed后知道的，Bootloader+固件+EPPROM，我都已经备份了。除此之外海域编程器固件。
+
+	路由器选择了小米mini 129元 2014年上市2016年购买。小米固件是192.168.31.1。192.168.1.181可以进入web。
+	我的新小米mini 192.168.31.1进不去，不过miwifi.com可以进web登录界面。
+	如果出现异常/失败/U盘无法读取状态，会进入红灯状态。一直黄灯似乎是正在重启，要是重启个半小时就说明有点问题了，一般10分钟以内。正常就是蓝灯常亮。不过刷了固件以后灯的小时可以改变有的固件还可以自己设置。
+	原来双频AC（2.4G和5G）可以同时发两个wifi
+	路由器先进行备份（刷机会把固件中的SN刷掉，这就会造成路由无法绑定小米账户，无法开启SHH访问无法开启ROOT权限等问题）：备份要先刷成开发者版本，然后下载开启SSH工具，不然putty和winscp访问不了路由器。
+	路由器刷开发者版本：（http://www1.miwifi.com/miwifi_download.html）（www子域名也行，不过要是连着路由器就进入了router web界面）：
+1、在miwifi.com官网下载路由器对应的ROM包，并将其放在U盘的根目录下，命名为miwifi.bin
+2、断开小米路由器mini的电源，将U盘插入路由器的USB接口
+3、按下reset按钮后重新接入电源，待指示灯变为黄色闪烁状态（而不是仅仅黄色）后松开reset键
+4、等待5~8分钟，刷机完成之后系统会自动重启并进入正常的启动状态（指示灯由黄灯常亮变为蓝灯常亮），此时，说明刷机成功完成！
+	路由器开启ssh，小米开启ssh后失去保修。ssh工具在那个网页下载（我也已经存到了磁盘）
+	路由器root
+	路由器有引导程序breed或者uboot。小米mini中是uboot，在文件夹BootLoader中
+	路由器刷“不死Uboot”：
+	路由器刷固件（潘多拉）
+
+	路由器开启SSH：
+	在那个网站下载SHH工具，同时分配给你使用小米账号绑定的路由器的root和登录密码，SSH开启以后会失去保修。开启以后使用putty进行登录，和winscp有点不同就是他这个用户名与口令不是一次性在登录界面完成而是在黑框框中填入的。SSH连接以后用passwd改密码改的似乎是web登录密码而不是ssh的密码。在putty界面中鼠标右键就是粘贴。不同小米min的ssh开启工具混用无效，我在新小米mini中一次性装入miwifi.bin和miwifi_ssh.bin结果ssh连接不行。U盘第一次插上去会给你几个文件，这时候U盘正在被写入，怪不得我拔下来怎么都要修复一下。先黄灯闪烁，然后蓝灯一会，然后就黄灯表示重启，然后才会蓝灯。
+	路由器备份：
+	在putty黑框框界面中：
+cat /proc/mtd显示所有固件。
+mtd0: 01000000 00010000 "ALL"
+mtd1: 00030000 00010000 "Bootloader"
+mtd2: 00010000 00010000 "Config"
+mtd3: 00010000 00010000 "Factory"
+mtd4: 00c80000 00010000 "OS1"//原本是firewall
+mtd5: 00b127d7 00010000 "rootfs"
+mtd6: 00200000 00010000 "OS2"
+mtd7: 00100000 00010000 "overlay"
+mtd8: 00010000 00010000 "crash"
+mtd9: 00010000 00010000 "reserved"
+mtd10: 00010000 00010000 "Bdata"
+对应进行备份
+dd if=/dev/mtd0 of=/tmp/ALL.bin
+dd if=/dev/mtd1 of=/tmp/Bootloader.bin
+dd if=/dev/mtd2 of=/tmp/Config.bin
+dd if=/dev/mtd3 of=/tmp/Factory.bin
+dd if=/dev/mtd4 of=/tmp/OS1.bin
+dd if=/dev/mtd5 of=/tmp/rootfs.bin
+dd if=/dev/mtd6 of=/tmp/OS2.bin
+dd if=/dev/mtd7 of=/tmp/overlay.bin
+dd if=/dev/mtd8 of=/tmp/crash.bin
+dd if=/dev/mtd9 of=/tmp/reserved.bin
+dd if=/dev/mtd10 of=/tmp/Bdata.bin//关键就是存data的这个，SN在里面，刷了非官固件就没了。不过又有人说固件大于8兆会这样，小于8兆的应该没问题。
+	然后用winscp登录：
+	在\tmp中找到刚刚弄出来的bin文件，将之保存到本地电脑上。
+	PS：使用这两个工具一开始都会问：第一次连接这个服务器，是否把ssh-rsa密钥指纹保存到本地缓存中？如果只连接一次的话就不保存或者不信任也不保存。
+	还原的话：命令格式如下
+mtd -r write /tmp/Bdata.bin Bdata（要顶掉的名字）
+mtd -r write /tmp/Config.bin Config
+
+
+	不死uboot：
+	只要这个引导，路由就不会挂。“不死”是在刷入固件时会自动去掉固件自带的 Bootloader，因此能够保证u-boot本身是不会被改变
+	http://downloads.openwrt.org.cn/PandoraBox/Xiaomi-Mini-R1CM/里面可以下载uboot和潘多拉固件
+	放入/tmp 使用命令：mtd -r write /tmp/uboot-xiaomi-mini-115200.bin Bootloader因为小米路由器的 uboot 分区称为Bootloader，所以用Bootloader也能识别。这个命令会先解锁BootLoader，然后安装，不过我怎么安装的时候还有网。。。
+
+	
+	不死ubreed：
+	Breed 不支持启动非 Linux 类型的固件，例如 TP/水星/迅捷的 VxWorks 系统。因此如果固件大小小于等于 2MB，那就肯定不能刷了。
+	Breed 相比 U-Boot 拥有以下新特性：
+真正多线程 (RTOS)，提升了整体处理事件的性能
+实时刷机进度，进度条能准确反映刷机进度
+Web 页面快速响应
+最大固件备份速度，依 Flash 而定，一般能达到 1MB/s
+免按复位键进入 Web 刷机模式
+telnet 功能，免 TTL 进入 Breed 命令控制台
+复位键定义测试功能
+固件启动失败自动进入 Web 刷机模式
+
+	跟 U-Boot 相同的刷入方法：
+从 PandoraBox U-Boot 中刷入
+在固件中使用 mtd 命令刷入
+在 U-Boot TTL 中刷入
+用编程器刷入
+	当出现Rebooting的时候就表示成功刷入了，断开路由器电源，尖物顶res键不放，接通电源，直到指示灯快速闪动（蓝色下的闪烁），电脑浏览器输入192.168.1.1。闪烁是提醒你可以刷了，蓝色表示正常了。
+	
+	breed刷PandoraBox流程：
+1.用硬物顶住mini的reset键开机，等到mini的黄灯狂闪的时候，松开reset键，电脑上输入192.168.1.1，就进入不死breed的控制台了，在该控制台下，就可以刷潘多拉等任意固件了。
+2.等到路由器上的灯变蓝了，访问192.168.1.1，帐号: root，密码: admin，此密码也是SSH登陆密码。
+
+
+	刷入PandoraBox，选择了最新的稳定版，而且刚好小于8M，大小为7M，使用mtd -r write /tmp/PandoraBox固件名字 OS1。OS1本来是叫fireware也就是存固件的地方。大概就一会，我才码几个字的时间就好了，putty和winscp的连接，设备通过wifi的连接全被断开，同时重启完成后地址改变，我的192.168.31.1不能用，但是果然刷新了以后就可以了用192.168.1.1了。初始账号root，密码admin。
+不过固件的web网页做的不太人性化，每点一次就要全部刷新下，反应倒是比miwifi固件快。PS：用PandoraBox上校园网，明明可以不输入PPPoE密码的，但是这就会导致网络连不上，是因为linux的缘故吗。
+	PandoraBox拨号：
+	打开网络-》接口-》WAN，这个就是你的WAN口，LAN就是已物理连接的端口。WAN6就是WAN的IPv6版，不用管它。修改协议从默认的DHCP变成PPPoE，然后在我不知道高级设置中设置网关跳跃点为40，我不知道它为毛默认设置为0，是想我的包超时丢掉么。
+	PandoraBox多拨：
+	拨号以后，打开网络-》虚拟WAN接口，当然把“启用”与“断线重连”勾选起来。输入你要虚拟WAN口数量，然后保存&应用。之后打开接口会发现多了几个VWAN接口，他会根据之前拨号的账号与密码一个个进行拨号（这时候路由器有点卡）。在负载均衡中查看，绿了几个就成功了几个。WAN会被改成不配置协议。断掉电源后重启，配置不变，不用担心。
+	PandoraBox负载均衡：
+	设置好HTTP 80，HTTPS 443，还有自带的default_rule，我都是用balanced策略。
+
+	最多创建了20个，原因初步猜测是因为macvlan驱动只能设置20个虚拟网卡
+	路由器如果想要外网访问端口的话，就在 /etc/config/firewall 中加入：
+# port redirect of remapped ssh port (22001) on wanconfig redirect 'myssh'       
+	option src wan 
+        option src_dport        22001
+        option dest             lan       	
+	option dest_port        22       
+	option proto            tcp
+单线程应用最高就1拨速度，多线程应用才能利用多拨。比如多拨对来网页是没有一点帮助的，用迅雷这种多线程应用就会有明显的增速。PandoraBox限制在20多拨以内。
+已经刷了系统以后，现在ssh，使用的账号与密码是PandoraBxo的登录。
+
+我使用自带的升级功能进行升级，然后GG了，明明弄完了说没有弄完，重启后红灯。不过这次可以用小米的miwifi.bin刷回来。
+
+
+	
+	
+
+
+	VLAN的设置，VLAN 1本来对所有的LAN口都是未标记，我把所有的都变成关。于是我电脑就不能访问路由器（电脑理解在LAN 2）（即便我VLAN 3设置了LAN 2为未标记）。电脑上还没有设置VLAN ，所以要是未标记，就是直接桥接。
+VLAN 1是特殊的。CPU就是eth0，都会设置为已标记。默认还有一个VLAN 2，WAN口设置为未标记，其他都是关。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	UPnP是英语Universal Plug and Play的首字母缩写，一般翻译成通用即插即用。路由器UPnP功能用于实现局域网计算机和智能移动设备，通过网络自动彼此对等连接，而且连接过程无需用户的参与。路由器UPnP功能用于局域网络计算机和智能移动设备，流畅使用网络，加快P2P软件访问网络的速度，如观看在线视频和多点下载等方面的软件，使网络更加稳定。
+
+
+
+
+
+
+	mips是指令集,sel和seb是内存大小端模式
+	无线-》接口配置-》网络 选中的是LAN。
+	发现一个很严肃的问题，校园网拨号，允许密码是空，但是我一旦为空，拨号就会失败。
+	默认账号密码：root/admin；admin/admin
+	多拨原理：macvlan虚拟出网卡，添加相应的wan口，设置好mroute叠加和防火墙。
+	用了中文PandoraBox以后，用英文openwrt顺好多。
+	插件是较低权限的用户在一个沙盒中运行的
+	界面是Lua写的。
+	接口的设置里面：使用内建IPv6是默认是开着的。
+	点了重启，然后过了一会等才开始闪，才开始重启。
+	VWAN接口的物理设置里面没有选择接口，网关跳跃点+1。防火墙倒是设置为wan。
+
+
+
+坑：
+	有的版本固件正确配置了但是不能拨号上网。有时候我对192.168.1.1的操作改动完了，但是还是不停地转。等等久一点再刷新。每次都卡在 /etc/config/syncdial。
+	发现正在使用的dropbear ssh存在严重的漏洞，尝试升级到最新版本进行修复。遇到还源失败的，基本都是固件不行。我已经下载了最新的dropbear.bin放到/tmp里面，燃火opkg install 却说当前已经是最新版本了（看来有个检查软件列表的机制）。偏偏又不能卸载了再升级，因为卸载了我ssh进不去了。尝试跟新，但是跟新失败，ssh还可以使用但是SCP不能传文件了。改用FTP传文件（也是刚好发现有这个功能），使用默认端口21，不机密，不匿名。
+
+
+
+
+PandoraBox基于BusyBox
+/usr/sbin/dropbear -F -P /var/run/dropbear.1.pid -p 192.168.1.1:22 -p fd23:522d:e38a::1:22 -K 300
+/usr/sbin/nmbd -D
+/usr/sbin/smbd -D
+不支持ps -aux，直接ps，因为ps -ww被别名过成ps了。
+通过ping -I pppoe-vwan10 -c 1 -W 2 -q 115.239.210.27。还有114.114.115.115，115.239.211.112这几个地址来验证自己虚拟端口是否需要重拨。
+
+killall nmbd
+killall smbd
+
+	ipv6支持：
+	tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      2556/uhttpd
+	tcp        0      0 :::80                   :::*                    LISTEN      2556/uhttpd
+	udp        0      0 :::546                  :::*                                6167/odhcp6c
+	udp        0      0 :::546                  :::*                                6168/odhcp6c
+	udp        0      0 :::546                  :::*                                6153/odhcp6c
+	udp        0      0 :::546                  :::*                                6159/odhcp6c
+	udp        0      0 :::546                  :::*                                6157/odhcp6c....
+rpcd (OpenWrt ubus RPC backend server)//Openwrt ubus RPC后端服务
+ubus是新openwrt引入的一个消息总线，主要作用是实现不同应用程序之间的信息交互。
+fstab自动挂载盘
+
+进web管理页面设置ssh端口，关闭一些用不着的启动项。
