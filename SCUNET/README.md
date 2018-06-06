@@ -1,7 +1,7 @@
 ### 简介
 
-SCUNET是四川大学校内为学生、教职工提供的无线wifi ssid，通过web的方式来实现wifi认证，采用RG SAM+与二代Portal技术实现  
-这是一个伟大的工程，它为我们打发上课时间（打王者荣耀上分）提供便利的同时，却也存在一定的安全隐患  
+SCUNET是四川大学搭建一个校园WiFi，是学校从锐捷公司采购的RG-SAM+Portal系统，由于大部分采购商都不会做什么修改，所以漏洞对于这套系统而言存在通用性。  
+这是一个伟大的工程，我是指SCUNET，它为我们打发上课时间（打王者荣耀上分）提供便利的同时（希望你能明白大学上课，大部分都是极度无聊与乏味的），却也存在一定的安全隐患  
 
 ### 知识介绍
 
@@ -9,8 +9,9 @@ SCUNET是四川大学校内为学生、教职工提供的无线wifi ssid，通�
 
 ### 相关URL
 
+无线网络技术期末报告.doc 是一个很详细记录了所有漏洞与利用过程的报告（WPS制作），建议直接看这份报告  
 架构介绍：http://www.ruijie.com.cn/yx/cpcy/yyxt/preview/3201  
-明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合）   
+明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合）（具体操作见doc）   
 平行越权：见目录parallel import  
 DNS隧道：见目录dns tunnel  
 接口参考：https://github.com/cai123nb/NetworkLogin/blob/master/main/java/com/network/cjyong/networklogin/MainActivity.java   
