@@ -17,4 +17,7 @@ https://github.com/yarrick/iodine
 
 ### 相关补充
 如果使用了DNS Tunnel，网速会比正常的认证上网慢上一些，关键一般取决于服务器的网速、隧道实现的原理  
+=======
+网速会比正常的认证上网慢上一些，关键一般取决于服务器的网速、隧道实现的原理  
+>>>>>>> master
 相关工具：iodine（推荐，多种平台包括手机，官方称上行速度最大680 kbit/s，下行速度上限可以达到2.3Mbit/s），dnscat2，DeNise，dns2tcp，Heyoka等  
