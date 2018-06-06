@@ -1,21 +1,22 @@
-###简介
+### 简介
 
 SCUNET是四川大学校内为学生、教职工提供的无线wifi ssid，通过web的方式来实现wifi认证，采用RG SAM+与二代Portal技术实现  
 这是一个伟大的工程，它为我们打发上课时间（打王者荣耀上分）提供便利的同时，却也存在一定的安全隐患  
 
-###知识介绍
+### 知识介绍
 
 大部分设备连上wifi的时候其实会自动发送一个URL请求（所以会自动弹出浏览器），比如苹果手机请求的是 www.apple.com ，而原版的安卓手机请求的是 client3.google.com ，但是这些请求的网址，不同的手机厂商自己可以通过修改Android的内核进行修改的，不是绝对的，有的手机甚至直接阉割了这个原版安卓的功能，有的则对这个功能进行了限制使用）。或者有些手机的软件做一些限制，比如在手机上通过还有一个智能识别软件，如果这个热点不能够访问外面，那就不弹出，甚至有的手机还直接做成，不能连接外网的热点，就不显示出来，直接屏蔽掉了。这时候，学校的服务器就会对这个请求进行处理，通过诸如iptables跳转，icmp重定向，DNS拦截，和HTTP重定向，甚至有的会采用网页重构，最后无论用户输入任何域名，任何URL，任何IP地址，都会被强制指定到某一个网页上去。而在川大这个登录网页是http://192.168.2.132。
 
-###相关URL
+### 相关URL
 
-架构介绍：http://www.ruijie.com.cn/yx/cpcy/yyxt/preview/3201 
-明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合） 
-平行越权：见目录parallel import
-DNS隧道：见目录dns tunnel
-接口参考：https://github.com/cai123nb/NetworkLogin/blob/master/main/java/com/network/cjyong/networklogin/MainActivity.java  
-特殊网址：http://192.168.2.135/eportal/  
-还有问题：但是未验证，暂不公开
+架构介绍：http://www.ruijie.com.cn/yx/cpcy/yyxt/preview/3201  
+明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合）   
+平行越权：见目录parallel import  
+DNS隧道：见目录dns tunnel  
+接口参考：https://github.com/cai123nb/NetworkLogin/blob/master/main/java/com/network/cjyong/networklogin/MainActivity.java   
+特殊网址：http://192.168.2.135/eportal/   
+还有问题：但是未验证，暂不公开  
 
-###一些闲话
-这是我准备在“无线网路技术“课程上的期末报告？虽然其中的内容与老师上课介绍的知识只有半毛钱关系。
+### 一些闲话
+
+这是我准备在“无线网路技术“课程上的期末报告？虽然其中的内容与老师上课介绍的知识只有半毛钱关系。  
