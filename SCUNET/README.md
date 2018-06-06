@@ -9,13 +9,13 @@ SCUNET是四川大学校内为学生、教职工提供的无线wifi ssid，通�
 
 ### 相关URL
 
-架构介绍：http://www.ruijie.com.cn/yx/cpcy/yyxt/preview/3201 
-明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合） 
-平行越权：见目录parallel import
-DNS隧道：见目录dns tunnel
-接口参考：https://github.com/cai123nb/NetworkLogin/blob/master/main/java/com/network/cjyong/networklogin/MainActivity.java  
-特殊网址：http://192.168.2.135/eportal/  
-还有问题：但是未验证，暂不公开
+架构介绍：http://www.ruijie.com.cn/yx/cpcy/yyxt/preview/3201  
+明文传输：这意味着可以通过嗅探直接获取目标密码（此漏洞很适合与平行越权结合）   
+平行越权：见目录parallel import  
+DNS隧道：见目录dns tunnel  
+接口参考：https://github.com/cai123nb/NetworkLogin/blob/master/main/java/com/network/cjyong/networklogin/MainActivity.java   
+特殊网址：http://192.168.2.135/eportal/   
+还有问题：但是未验证，暂不公开  
 
 ### 一些闲话
 这是我准备在“无线网路技术“课程上的期末报告？虽然其中的内容与老师上课介绍的知识只有半毛钱关系。
